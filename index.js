@@ -1,5 +1,5 @@
-const mongodb = require('mongodb')
-const { MongoClient } = mongodb
+const mongodb = require('mongodb') 
+const { MongoClient, ObjectId } = mongodb
 const express = require('express')
 const app = express()
 const bodyParser = require('body-parser')
@@ -29,14 +29,24 @@ MongoClient.connect('mongodb://localhost/note-taker', (err, db) => {
       .find()
       .toArray()
       .then(result => {
+        res.json(result)
+      })
+      .catch(err => {
+        console.error(err)
+        res.sendStatus(500)
+      })
+  })
+  app.put('/notes/:_id', (req, res) => {
+    notes
+      .updateOne({ _id: ObjectId(req.params._id) }, req.body)
+      .then(result => {
         console.log(result)
         res.sendStatus(200)
       })
       .catch(err => {
         console.error(err)
-        res.sendStatus(404)
+        res.sendStatus(500)
       })
-      .then(() => db.close())
   })
   app.listen(3000, () => console.log('Port available'))
 })
