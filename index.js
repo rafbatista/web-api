@@ -26,10 +26,10 @@ MongoClient.connect('mongodb://localhost/note-taker', (err, db) => {
   })
   app.get('/notes', (req, res) => {
     notes
-      .find({})
+      .find()
       .toArray()
-      .then(() => {
-        console.log(req.body)
+      .then(result => {
+        console.log(result)
         res.sendStatus(200)
       })
       .catch(err => {
@@ -38,5 +38,5 @@ MongoClient.connect('mongodb://localhost/note-taker', (err, db) => {
       })
       .then(() => db.close())
   })
-  app.listen(3000, () => console.log('Post it'))
+  app.listen(3000, () => console.log('Port available'))
 })
