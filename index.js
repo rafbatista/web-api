@@ -23,6 +23,19 @@ MongoClient.connect('mongodb://localhost/note-taker', (err, db) => {
         console.error(err)
         res.sendStatus(500)
       })
+  })
+  app.get('/notes', (req, res) => {
+    notes
+      .find({})
+      .toArray()
+      .then(() => {
+        console.log(req.body)
+        res.sendStatus(200)
+      })
+      .catch(err => {
+        console.error(err)
+        res.sendStatus(404)
+      })
       .then(() => db.close())
   })
   app.listen(3000, () => console.log('Post it'))
