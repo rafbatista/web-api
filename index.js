@@ -1,4 +1,4 @@
-const mongodb = require('mongodb') 
+const mongodb = require('mongodb')
 const { MongoClient, ObjectId } = mongodb
 const express = require('express')
 const app = express()
@@ -16,7 +16,6 @@ MongoClient.connect('mongodb://localhost/note-taker', (err, db) => {
     notes
       .insertOne(req.body)
       .then(() => {
-        console.log(req.body)
         res.sendStatus(201)
       })
       .catch(err => {
@@ -40,8 +39,18 @@ MongoClient.connect('mongodb://localhost/note-taker', (err, db) => {
     notes
       .updateOne({ _id: ObjectId(req.params._id) }, req.body)
       .then(result => {
-        console.log(result)
         res.sendStatus(200)
+      })
+      .catch(err => {
+        console.error(err)
+        res.sendStatus(500)
+      })
+  })
+  app.delete('/notes/:_id', (req, res) => {
+    notes
+      .deleteOne({ _id: ObjectId(req.params._id) })
+      .then(result => {
+        res.sendStatus(202)
       })
       .catch(err => {
         console.error(err)
